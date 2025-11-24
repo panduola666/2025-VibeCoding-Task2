@@ -1,37 +1,150 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
+<!doctype html>
+<html lang="zh-TW">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>圈圈 — 前端工程師（個人網站）</title>
+  <meta name="description" content="圈圈 — 前端工程師，專注於 Vue.js 與現代前端技術，熱衷於打造響應式、可訪問、效能優化的使用者介面、元件庫與開發者文件。">
+  <meta name="author" content="圈圈">
   <style>
-    *, *::before, *::after { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; max-width: 100%; }
-    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans TC", Arial, sans-serif; line-height: 1.6; }
-    img { max-width: 100%; height: auto; display: block; }
-    .container { width: 1920px; margin: 0 auto; padding: 16px; }
-    nav a { margin-right: 12px; text-decoration: none; }
-    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
-    .col-12 { grid-column: span 12; }
-    @media (min-width: 768px) { .col-md-6 { grid-column: span 6; } }
-    .card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+    /* Reset + sensible defaults */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,'Noto Sans TC','Helvetica Neue',Arial,'PingFang TC',"Microsoft JhengHei";line-height:1.5;color:#0f172a;background:#f8fafc;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;height:auto;display:block}
+
+    /* Layout container */
+    .site{min-height:100vh;display:flex;flex-direction:column}
+    header{background:linear-gradient(90deg,#0ea5a6 0%,#7c3aed 100%);color:#fff;padding:28px 20px}
+    .wrap{width:100%;max-width:1100px;margin:0 auto}
+
+    /* Header */
+    .brand{display:flex;align-items:center;gap:16px}
+    .avatar{width:72px;height:72px;border-radius:12px;flex:0 0 72px;overflow:hidden;background:#fff}
+    .brand h1{font-size:20px;margin:0}
+    .brand p{margin:0;font-size:14px;opacity:.95}
+
+    nav{margin-top:12px}
+    nav ul{display:flex;gap:12px;padding:0;margin:0;list-style:none}
+    nav a{background:rgba(255,255,255,0.12);padding:8px 12px;border-radius:8px;font-weight:600}
+
+    /* Main content */
+    main{flex:1;padding:28px 20px}
+    .grid{display:grid;grid-template-columns:1fr 320px;gap:28px;max-width:1100px;margin:0 auto}
+    .card{background:#fff;border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(16,24,40,0.06);}
+
+    /* Profile */
+    .intro p{margin:0 0 12px}
+    .skills ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+    .skills li{background:#eef2ff;padding:6px 10px;border-radius:999px;font-size:13px}
+
+    /* Projects */
+    .projects .project{margin-bottom:12px}
+    .project a{display:inline-block;padding:8px 10px;border-radius:8px;background:#eef2ff}
+
+    /* Footer */
+    footer{padding:20px 20px;background:#0f172a;color:#fff}
+    footer .wrap{display:flex;justify-content:space-between;align-items:center}
+
+    /* Responsive rules to prevent horizontal scroll */
+    @media (max-width: 1024px){
+      .grid{grid-template-columns:1fr 300px}
+      .avatar{width:64px;height:64px;flex:0 0 64px}
+    }
+    @media (max-width: 768px){
+      .grid{grid-template-columns:1fr;}
+      nav ul{flex-wrap:wrap}
+      .brand{gap:12px}
+    }
+    @media (max-width: 420px){
+      header{padding:20px 14px}
+      main{padding:20px 14px}
+      .avatar{width:56px;height:56px}
+      .brand h1{font-size:18px}
+    }
+
+    /* Utility to ensure no unexpected overflow (safety) */
+    html,body,#app{width:100%}
   </style>
 </head>
 <body>
-  <header class="container" role="banner">
-    <nav aria-label="主選單">
-      <a href="#about">關於我</a>
-      <a href="#projects">作品集</a>
-      <a href="https://example.com/blog">技術部落格</a>
-      <a href="mailto:me@example.com">聯絡我</a>
-    </nav>
-    <h1>你好，我是小明：前端工程師新手之路</h1>
-    <h1>你好，我是小明：前端工程師新手之路</h1>
-    <p>歡迎來到我的個人網站！這裡整理了學習紀錄、Side Project 與實作心得。</p>
-  </header>
+  <div class="site" id="app">
+    <header>
+      <div class="wrap">
+        <div class="brand">
+          <!-- data URI SVG avatar, <img> has non-empty alt -->
+          <img class="avatar" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'><rect width='200' height='200' fill='%23ffffff' rx='20' ry='20'/><circle cx='100' cy='70' r='44' fill='%23e6f7f7'/><text x='100' y='122' font-size='72' font-family='Noto Sans TC,Segoe UI,Arial' text-anchor='middle' fill='%23333' dominant-baseline='middle'>圈</text></svg>" alt="圈圈 簡約大頭貼">
+          <div>
+            <h1>圈圈 — 前端工程師</h1>
+            <p>專注於 Vue.js 與現代前端開發，打造響應式與可訪問的介面。</p>
+          </div>
+        </div>
+        <nav aria-label="主導覽">
+          <ul>
+            <li><a href="#about">關於我</a></li>
+            <li><a href="#projects">作品</a></li>
+            <li><a href="#contact">聯絡</a></li>
+            <li><a href="https://github.com/your-username" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
 
-  <footer class="container" role="contentinfo">
-    <p>© 2025 My Portfolio · <a href="#">GitHub</a></p>
-    <img src="https://source.unsplash.com/600x200/?technology,abstract" alt="">
-  </footer>
+    <main>
+      <div class="grid">
+        <section class="card" id="about" aria-labelledby="about-title">
+          <h2 id="about-title">關於我</h2>
+          <div class="intro">
+            <p>你好，我是圈圈，目前是一名前端工程師，主要使用 <strong>Vue.js</strong> 進行開發，熟悉元件化設計、狀態管理與組件測試。我也重視可訪問性（a11y）與效能優化。</p>
+            <p>我喜歡把 UI 切分成可重用的元件，並建立清晰的開發與設計系統，讓專案更易維護。</p>
+          </div>
+
+          <div class="skills" style="margin-top:14px">
+            <h3>技能</h3>
+            <ul>
+              <li>Vue.js</li>
+              <li>JavaScript / ESNext</li>
+              <li>HTML &amp; CSS (RWD)</li>
+              <li>TypeScript</li>
+              <li>Accessibility</li>
+            </ul>
+          </div>
+        </section>
+
+        <aside class="card" aria-labelledby="contact-title">
+          <h2 id="contact-title">聯絡我</h2>
+          <p>歡迎透過以下方式聯絡我：</p>
+          <p><strong>Email</strong>: <a href="mailto:hello@example.com">hello@example.com</a></p>
+          <p><strong>履歷 / 作品</strong>: <a href="https://github.com/your-username" target="_blank" rel="noopener noreferrer">github.com/your-username</a></p>
+          <p style="margin-top:8px">想看快速連絡表單或個人作品集頁面？我可以幫你把這個單檔擴充成多頁或加入互動（純前端）。</p>
+        </aside>
+
+        <section class="card" id="projects" style="grid-column:1/-1">
+          <h2>作品集</h2>
+          <div class="projects">
+            <article class="project">
+              <h3>範例組件庫</h3>
+              <p>一個用 Vue + Vite 建置的元件庫，包含按鈕、表單、模態視窗與可訪問的互動元件。</p>
+              <p><a href="https://github.com/your-username/example-component-lib" target="_blank" rel="noopener noreferrer">查看程式碼</a></p>
+            </article>
+
+            <article class="project">
+              <h3>響應式個人網站樣板</h3>
+              <p>使用純 HTML/CSS 與少量 JavaScript 的響應式模版，著重於易讀性與效能。</p>
+              <p><a href="#projects">示範頁面</a></p>
+            </article>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <div>&copy; <time datetime="2025">2025</time> 圈圈</div>
+        <div><a href="https://github.com/your-username" target="_blank" rel="noopener noreferrer">GitHub</a> · <a href="#contact">聯絡</a></div>
+      </div>
+    </footer>
+  </div>
 </body>
 </html>
